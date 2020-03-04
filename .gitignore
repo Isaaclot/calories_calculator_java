@@ -30,3 +30,4 @@ build/
 out/
 target/
 /.idea/
+/calories_calculator_java.iml
