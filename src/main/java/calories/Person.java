@@ -25,7 +25,12 @@ public abstract class Person {
         this.age = age;
     }
 
-    public abstract Double caloriesCalculator();
-
-
+    public Double caloriesCalculator() {
+        Double calories = baseCalories
+                + (weightFactor * weight)
+                + (heightFactor * ((height * feetTransferInchFactor)
+                + inch))
+                - (ageFactor * age);
+        return Double.valueOf(decimalFormat.format(calories));
+    }
 }

@@ -15,16 +15,4 @@ public class Male extends Person {
         baseCalories = 66;
     }
 
-    @Override
-    public Double caloriesCalculator() {
-        return Double.valueOf(decimalFormat.format(calculateMaleCalories()));
-    }
-
-    public Double calculateMaleCalories() {
-        return baseCalories
-                + (weightFactor * weight)
-                + (heightFactor * ((height * feetTransferInchFactor)
-                + inch))
-                - (ageFactor * age);
-    }
 }

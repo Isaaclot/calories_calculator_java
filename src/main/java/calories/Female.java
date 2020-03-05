@@ -13,16 +13,4 @@ public class Female extends Person {
         heightFactor = 4.7;
     }
 
-    @Override
-    public Double caloriesCalculator() {
-        return Double.valueOf(decimalFormat.format(calculateFemaleCalories()));
-    }
-
-    public Double calculateFemaleCalories() {
-        return baseCalories
-                + (weightFactor * weight)
-                + (heightFactor * ((height * feetTransferInchFactor)
-                + inch))
-                - (ageFactor * age);
-    }
 }
