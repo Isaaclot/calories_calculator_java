@@ -22,42 +22,42 @@ public class CaloriesCalculator {
         JFrame jFrame = new JFrame("CaloriesCalculator");
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        JPanel panelRadio = initPanelRadio();
 
-        JPanel panalRadio = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ButtonGroup btnGroup = new ButtonGroup();
-        rbtnMale = new JRadioButton("Male");
-        rbtnFemale = new JRadioButton("Female");
-        rbtnMale.setSelected(true);
-        btnGroup.add(rbtnMale);
-        btnGroup.add(rbtnFemale);
-        panalRadio.add(rbtnMale);
-        panalRadio.add(rbtnFemale);
+        JPanel panelHeight = initPanelHeight();
 
+        JPanel panelWeight = initPanelWeight();
 
-        JPanel panalHeight = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panalHeight.add(new JLabel(" Height:"));
-        txtFeet = new JTextField("5", 8);
-        panalHeight.add(txtFeet);
-        panalHeight.add(new JLabel("ft"));
-        txtInches = new JTextField("1", 8);
-        panalHeight.add(txtInches);
-        panalHeight.add(new JLabel("in"));
+        JPanel panelAge = initPanelAge();
 
+        JPanel panelCalc = initPanelCalculator();
 
-        JPanel panalWeight = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panalWeight.add(new JLabel("Weight:"));
-        txtWeight = new JTextField("110", 8);
-        panalWeight.add(txtWeight);
-        panalWeight.add(new JLabel("lb"));
+        JPanel panelCalories = initPanelCalories();
 
+        Box vBox = Box.createVerticalBox();
+        vBox.add(panelRadio);
+        vBox.add(panelHeight);
+        vBox.add(panelWeight);
+        vBox.add(panelAge);
+        vBox.add(panelCalc);
+        vBox.add(panelCalories);
 
-        JPanel panalAge = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panalAge.add(new JLabel("      Age:"));
-        txtAge = new JTextField("12", 8);
-        panalAge.add(txtAge);
-        panalAge.add(new JLabel("year"));
+        jFrame.setContentPane(vBox);
+        jFrame.pack();
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setVisible(true);
+    }
 
-        JPanel panalCalc = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    private JPanel initPanelCalories() {
+        JPanel panelCalories = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelCalories.add(new JLabel("Recommended Daily Amount:"));
+        txtCalories = new JTextField(8);
+        panelCalories.add(txtCalories);
+        return panelCalories;
+    }
+
+    private JPanel initPanelCalculator() {
+        JPanel panelCalc = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnCalculate = new JButton("Calculate");
         btnCalculate.addActionListener(new ActionListener() {
 
@@ -67,41 +67,68 @@ public class CaloriesCalculator {
             }
 
         });
-        panalCalc.add(btnCalculate);
+        panelCalc.add(btnCalculate);
+        return panelCalc;
+    }
 
-        JPanel panalCalories = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panalCalories.add(new JLabel("Recommended Daily Amount:"));
-        txtCalories = new JTextField(8);
-        panalCalories.add(txtCalories);
+    private JPanel initPanelAge() {
+        JPanel panelAge = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelAge.add(new JLabel("      Age:"));
+        txtAge = new JTextField("12", 8);
+        panelAge.add(txtAge);
+        panelAge.add(new JLabel("year"));
+        return panelAge;
+    }
 
-        Box vBox = Box.createVerticalBox();
-        vBox.add(panalRadio);
-        vBox.add(panalHeight);
-        vBox.add(panalWeight);
-        vBox.add(panalAge);
-        vBox.add(panalCalc);
-        vBox.add(panalCalories);
+    private JPanel initPanelWeight() {
+        JPanel panelWeight = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelWeight.add(new JLabel("Weight:"));
+        txtWeight = new JTextField("110", 8);
+        panelWeight.add(txtWeight);
+        panelWeight.add(new JLabel("lb"));
+        return panelWeight;
+    }
 
-        jFrame.setContentPane(vBox);
-        jFrame.pack();
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setVisible(true);
+    private JPanel initPanelHeight() {
+        JPanel panelHeight = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelHeight.add(new JLabel(" Height:"));
+        txtFeet = new JTextField("5", 8);
+        panelHeight.add(txtFeet);
+        panelHeight.add(new JLabel("ft"));
+        txtInches = new JTextField("1", 8);
+        panelHeight.add(txtInches);
+        panelHeight.add(new JLabel("in"));
+        return panelHeight;
+    }
+
+    private JPanel initPanelRadio() {
+        JPanel panelRadio = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        ButtonGroup btnGroup = new ButtonGroup();
+        rbtnMale = new JRadioButton("Male");
+        rbtnFemale = new JRadioButton("Female");
+        rbtnMale.setSelected(true);
+        btnGroup.add(rbtnMale);
+        btnGroup.add(rbtnFemale);
+        panelRadio.add(rbtnMale);
+        panelRadio.add(rbtnFemale);
+        return panelRadio;
     }
 
     private void Calculate() {
-        if (rbtnMale.isSelected()) {
-            txtCalories.setText(decimalFormat.format(66
-                    + (6.3 * Double.valueOf(txtWeight.getText()))
-                    + (12.9 * ((Double.valueOf(txtFeet.getText()) * 12)
-                    + Double.valueOf(txtInches.getText())))
-                    - (6.8 * Double.valueOf(txtAge.getText()))));
-        } else {
-            txtCalories.setText(decimalFormat.format(655
-                    + (4.3 * Double.valueOf(txtWeight.getText()))
-                    + (4.7 * ((Double.valueOf(txtFeet.getText()) * 12)
-                    + Double.valueOf(txtInches.getText())))
-                    - (4.7 * Double.valueOf(txtAge.getText()))));
-        }
+        boolean isMale = rbtnMale.isSelected();
+        Double weight = Double.valueOf(txtWeight.getText());
+        Double inch = Double.valueOf(txtInches.getText());
+        Double age = Double.valueOf(txtAge.getText());
+        Double feet = Double.valueOf(txtFeet.getText());
+
+        txtCalories.setText(calculateCalories(isMale, weight, inch, age, feet));
+    }
+
+    public String calculateCalories(boolean isMale, Double weight, Double inch, Double age, Double feet) {
+        double calories = isMale ?
+                new Male(weight, inch, age, feet).calculateCalories() :
+                new Female(weight, inch, age, feet).calculateCalories();
+        return decimalFormat.format(calories);
     }
 
 
