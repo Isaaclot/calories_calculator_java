@@ -2,8 +2,6 @@ package calories;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,7 +107,7 @@ public class CaloriesCalculator {
 
     public List<JRadioButton> initGardenData() {
         List<JRadioButton> gardenList = new ArrayList<>();
-        for (GenderEnum value : GenderEnum.values()) {
+        for (GenderCalorieParameter value : GenderCalorieParameter.values()) {
             gardenList.add(new JRadioButton(value.getGarden()));
         }
         return gardenList;
@@ -127,7 +125,7 @@ public class CaloriesCalculator {
     }
 
     public String calculateCalories(String selectGender, Double weight, Double inch, Double age, Double feet) {
-        return new Person(GenderEnum.getByGarden(selectGender), weight, inch, age, feet).calculateCalories();
+        return new Person(GenderCalorieParameter.getByGarden(selectGender), weight, inch, age, feet).calculateCalories();
     }
 
 

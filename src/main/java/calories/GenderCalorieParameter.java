@@ -4,7 +4,7 @@ package calories;
  * @author
  * @since 2020/3/8 9:09 PM
  */
-public enum GenderEnum {
+public enum GenderCalorieParameter {
     MALE("Male", 66, 6.3D, 12.9D, 6.8D),
     FEMALE("Female", 655, 4.3D, 4.7D, 4.7D),
     X0("X0", 660, 4.3D, 4.7D, 4.7D),
@@ -25,7 +25,7 @@ public enum GenderEnum {
     private double feetFactor;
     private double ageFactor;
 
-    GenderEnum(String garden, int baseCalories, double weightFactor, double feetFactor, double ageFactor) {
+    GenderCalorieParameter(String garden, int baseCalories, double weightFactor, double feetFactor, double ageFactor) {
         this.garden = garden;
         this.baseCalories = baseCalories;
         this.weightFactor = weightFactor;
@@ -33,8 +33,8 @@ public enum GenderEnum {
         this.ageFactor = ageFactor;
     }
 
-    public static GenderEnum getByGarden(String name) {
-        for (GenderEnum value : GenderEnum.values()) {
+    public static GenderCalorieParameter getByGarden(String name) {
+        for (GenderCalorieParameter value : GenderCalorieParameter.values()) {
             if (value.getGarden().equals(name)) return value;
         }
         return null;

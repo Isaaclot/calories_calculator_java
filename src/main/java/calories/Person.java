@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
  * @since 2020/3/6 2:56 PM
  */
 public class Person {
-    private GenderEnum byGender;
+    private GenderCalorieParameter calorieParameter;
     protected Double weight;
     protected Double inch;
     protected Double age;
@@ -16,8 +16,8 @@ public class Person {
     private DecimalFormat decimalFormat = new DecimalFormat("#.######");
 
 
-    public Person(GenderEnum gender, Double weight, Double inch, Double age, Double feet) {
-        this.byGender = gender;
+    public Person(GenderCalorieParameter gender, Double weight, Double inch, Double age, Double feet) {
+        this.calorieParameter = gender;
         this.weight = weight;
         this.inch = inch;
         this.age = age;
@@ -25,11 +25,11 @@ public class Person {
     }
 
     public String calculateCalories() {
-        double calories = byGender.getBaseCalories()
-                + (byGender.getWeightFactor() * weight)
-                + (byGender.getFeetFactor() * ((feet * 12)
+        double calories = calorieParameter.getBaseCalories()
+                + (calorieParameter.getWeightFactor() * weight)
+                + (calorieParameter.getFeetFactor() * ((feet * 12)
                 + inch))
-                - (byGender.getAgeFactor() * age);
+                - (calorieParameter.getAgeFactor() * age);
         return decimalFormat.format(calories);
     }
 
