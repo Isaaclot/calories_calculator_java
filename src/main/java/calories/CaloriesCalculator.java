@@ -4,19 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class CaloriesCalculator {
 
-    private JRadioButton rbtnMale;
-    private JRadioButton rbtnFemale;
     private JTextField txtFeet;
     private JTextField txtInches;
     private JTextField txtWeight;
     private JTextField txtAge;
     private JTextField txtCalories;
     private JButton btnCalculate;
-    DecimalFormat decimalFormat = new DecimalFormat("#.######");
+
+    private List<JRadioButton> radioGardenList;
 
     public void InitializeComponent() {
         JFrame jFrame = new JFrame("CaloriesCalculator");
@@ -59,14 +60,7 @@ public class CaloriesCalculator {
     private JPanel initPanelCalculator() {
         JPanel panelCalc = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnCalculate = new JButton("Calculate");
-        btnCalculate.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                Calculate();
-            }
-
-        });
+        btnCalculate.addActionListener(arg0 -> Calculate());
         panelCalc.add(btnCalculate);
         return panelCalc;
     }
@@ -104,31 +98,36 @@ public class CaloriesCalculator {
     private JPanel initPanelRadio() {
         JPanel panelRadio = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ButtonGroup btnGroup = new ButtonGroup();
-        rbtnMale = new JRadioButton("Male");
-        rbtnFemale = new JRadioButton("Female");
-        rbtnMale.setSelected(true);
-        btnGroup.add(rbtnMale);
-        btnGroup.add(rbtnFemale);
-        panelRadio.add(rbtnMale);
-        panelRadio.add(rbtnFemale);
+        radioGardenList = initGardenData();
+        radioGardenList.get(0).setSelected(true);
+        for (JRadioButton radioButton : radioGardenList) {
+            btnGroup.add(radioButton);
+            panelRadio.add(radioButton);
+        }
         return panelRadio;
     }
 
+    public List<JRadioButton> initGardenData() {
+        List<JRadioButton> gardenList = new ArrayList<>();
+        for (GenderEnum value : GenderEnum.values()) {
+            gardenList.add(new JRadioButton(value.getGarden()));
+        }
+        return gardenList;
+    }
+
     private void Calculate() {
-        boolean isMale = rbtnMale.isSelected();
+        Optional<JRadioButton> first = radioGardenList.stream().filter(AbstractButton::isSelected).findFirst();
+        String selectSex = first.map(AbstractButton::getText).orElse(null);
         Double weight = Double.valueOf(txtWeight.getText());
         Double inch = Double.valueOf(txtInches.getText());
         Double age = Double.valueOf(txtAge.getText());
         Double feet = Double.valueOf(txtFeet.getText());
 
-        txtCalories.setText(calculateCalories(isMale, weight, inch, age, feet));
+        txtCalories.setText(calculateCalories(selectSex, weight, inch, age, feet));
     }
 
-    public String calculateCalories(boolean isMale, Double weight, Double inch, Double age, Double feet) {
-        double calories = isMale ?
-                new Male(weight, inch, age, feet).calculateCalories() :
-                new Female(weight, inch, age, feet).calculateCalories();
-        return decimalFormat.format(calories);
+    public String calculateCalories(String selectGender, Double weight, Double inch, Double age, Double feet) {
+        return new Person(GenderEnum.getByGarden(selectGender), weight, inch, age, feet).calculateCalories();
     }
 
 
